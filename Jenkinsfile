@@ -67,8 +67,8 @@ pipeline {
                     echo 'Deploying to EC2...'
                     sh '''
                         ssh ${EC2_USER}@${EC2_HOST} << EOF
-                            cd ${DEPLOY_DIR}
                             source venv/bin/activate
+                            cd flaskapp
                             nohup python app.py &
                         EOF
                     '''
