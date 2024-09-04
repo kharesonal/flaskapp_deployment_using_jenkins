@@ -34,6 +34,7 @@ pipeline {
                 echo 'Running Unit Tests...'
                 sh '''
                     . venv/bin/activate
+                    cd flaskapp
                     pytest test_app.py
                 '''
             }
