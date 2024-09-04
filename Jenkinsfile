@@ -77,27 +77,11 @@ pipeline {
         }
     }
 
-     post {
-        success {
-            echo 'Pipeline succeeded!'
-            emailext(
-                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """Good news! The pipeline was successful.
-                        Job: ${env.JOB_NAME}
-                        Build Number: ${env.BUILD_NUMBER}
-                        See details at ${env.BUILD_URL}""",
-                to: '89sonal.khare@gmail.com'
-            )
+      post {
+        always {
+            mail to: '89sonal.khare@gmail.com',
+                 subject: "Jenkins Build: ${currentBuild.fullDisplayName}",
+                 body: "Build ${currentBuild.result}: ${currentBuild.fullDisplayName}\nMore info at: ${env.BUILD_URL}"
         }
-        failure {
-            echo 'Pipeline failed!'
-            emailext(
-                subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """Unfortunately, the pipeline failed.
-                        Job: ${env.JOB_NAME}
-                        Build Number: ${env.BUILD_NUMBER}
-                        Check details at ${env.BUILD_URL}""",
-                to: '89sonal.khare@gmail.com'
-            )
-        }
+    }
 }
