@@ -93,4 +93,7 @@ pipeline {
                 body: "The build failed. Please check Jenkins for more details."
         }
     }
+    always {
+            echo 'Pipeline finished.'
+        }
 }
