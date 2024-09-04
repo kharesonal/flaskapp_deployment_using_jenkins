@@ -5,7 +5,7 @@ pipeline {
         GIT_REPO = "https://github.com/kharesonal/flaskapp_deployment_using_jenkins.git"
         EC2_USER = 'ubuntu'
         EC2_HOST = '15.168.13.192'
-        DEPLOY_DIR = '/home/ubuntu/'
+        DEPLOY_DIR = '/home/ubuntu'
         SSH_CRED_ID = "EC2-SSH-Credentials"
     }
 
