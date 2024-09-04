@@ -79,9 +79,18 @@ pipeline {
 
       post {
         always {
+            cleanWs()
+            echo "Build completed with status: ${currentBuild.result}"
+        }
+        success {
             mail to: '89sonal.khare@gmail.com',
-                 subject: "Jenkins Build: ${currentBuild.fullDisplayName}",
-                 body: "Build ${currentBuild.result}: ${currentBuild.fullDisplayName}\nMore info at: ${env.BUILD_URL}"
+                subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: "The build was successful!"
+        }
+        failure {
+            mail to: '89sonal.khare@gmail.com',
+                subject: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: "The build failed. Please check Jenkins for more details."
         }
     }
 }
