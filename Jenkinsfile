@@ -4,7 +4,7 @@ pipeline {
     environment {
         GIT_REPO = "https://github.com/kharesonal/flaskapp_deployment_using_jenkins.git"
         EC2_USER = 'ubuntu'
-        EC2_HOST = '13.208.186.187'
+        EC2_HOST = '15.152.50.150'
         DEPLOY_DIR = '/home/ubuntu'
         SSH_CRED_ID = "EC2-SSH-Credentials"
     }
@@ -69,7 +69,7 @@ pipeline {
                         ssh ${EC2_USER}@${EC2_HOST} << EOF
                             source venv/bin/activate
                             cd flaskapp
-                            python3 app.py >> log.txt 2>&1 &
+                            nohup python3 app.py > flaskapp.log 2>&1 &
                         EOF
                     '''
                 }
