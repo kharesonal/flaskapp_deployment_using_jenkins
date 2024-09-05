@@ -69,7 +69,6 @@ pipeline {
                         ssh ${EC2_USER}@${EC2_HOST} << EOF
                             source venv/bin/activate
                             cd flaskapp
-                            nohup python3 app.py > flaskapp.log 2>&1 &
                         EOF
                     '''
                 }
