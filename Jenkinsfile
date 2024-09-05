@@ -21,11 +21,12 @@ pipeline {
             steps {
                 echo 'Setting up Virtual Environment and Installing Dependencies...'
                 sh '''
-                    python3 -m venv venv
-                    . venv/bin/activate
-                    cd flaskapp
-                    pip install -r requirements.txt
+                    ssh ${EC2_USER}@${EC2_HOST} << 'EOF'
+                        cd flaskapp
+                        source venv/bin/activate
+                    EOF
                 '''
+
             }
         }
 
