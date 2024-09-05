@@ -25,7 +25,7 @@ pipeline {
                         ssh ${EC2_USER}@${EC2_HOST} << 'EOF'
                             cd flaskapp
                             source venv/bin/activate
-                            pip install -r requirements.txt
+                            pip install -r requirements.txt --break-system-packages
                         EOF
                     '''
                 }
