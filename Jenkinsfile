@@ -26,7 +26,7 @@ pipeline {
                             cd flaskapp
                             source venv/bin/activate
                             pip install -r requirements.txt --break-system-packages
-                        EOF
+                            EOF
                     '''
                 }
             }
@@ -73,7 +73,7 @@ pipeline {
                             cd ${DEPLOY_DIR}/flaskapp
                             . venv/bin/activate
                             nohup python app.py &
-                        EOF
+                            EOF
                     '''
                 }
             }
