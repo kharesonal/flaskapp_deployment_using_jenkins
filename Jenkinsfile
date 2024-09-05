@@ -20,13 +20,15 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Setting up Virtual Environment and Installing Dependencies...'
-                sh '''
-                    ssh ${EC2_USER}@${EC2_HOST} << 'EOF'
-                        cd flaskapp
-                        source venv/bin/activate
-                    EOF
-                '''
-
+                sshagent (credentials: ["${env.SSH_CRED_ID}"]) {
+                    sh '''
+                        ssh ${EC2_USER}@${EC2_HOST} << 'EOF'
+                            cd flaskapp
+                            source venv/bin/activate
+                            pip install -r requirements.txt
+                        EOF
+                    '''
+                }
             }
         }
 
@@ -64,12 +66,21 @@ pipeline {
                 }
             }
             steps {
-                    echo "do nothing"  
-			} 
+                sshagent (credentials: ["${env.SSH_CRED_ID}"]) {
+                    echo 'Deploying application on EC2...'
+                    sh '''
+                        ssh ${EC2_USER}@${EC2_HOST} << 'EOF'
+                            cd ${DEPLOY_DIR}/flaskapp
+                            . venv/bin/activate
+                            nohup python app.py &
+                        EOF
+                    '''
+                }
+            }
         }
     }
 
-      post {
+    post {
         always {
             cleanWs()
             echo "Build completed with status: ${currentBuild.result}"
