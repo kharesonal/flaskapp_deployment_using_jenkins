@@ -20,15 +20,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Setting up Virtual Environment and Installing Dependencies...'
-                sshagent (credentials: ["${env.SSH_CRED_ID}"]) {
-                    sh '''
-                        ssh ${EC2_USER}@${EC2_HOST} << 'EOF'
-                            cd flaskapp
-                            source venv/bin/activate
-                            pip install -r requirements.txt --break-system-packages
-                            EOF
-                    '''
-                }
             }
         }
 
@@ -66,16 +57,7 @@ pipeline {
                 }
             }
             steps {
-                sshagent (credentials: ["${env.SSH_CRED_ID}"]) {
-                    echo 'Deploying application on EC2...'
-                    sh '''
-                        ssh ${EC2_USER}@${EC2_HOST} << 'EOF'
-                            cd ${DEPLOY_DIR}/flaskapp
-                            . venv/bin/activate
-                            nohup python app.py &
-                            EOF
-                    '''
-                }
+                echo 'Setting up Virtual Environment and Installing Dependencies...'
             }
         }
     }
