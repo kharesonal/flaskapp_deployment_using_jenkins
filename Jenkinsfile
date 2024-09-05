@@ -64,9 +64,8 @@ pipeline {
                 }
             }
             steps {
-                    echo "do nothing"
-                }
-            }
+                    echo "do nothing"  
+			} 
         }
     }
 
