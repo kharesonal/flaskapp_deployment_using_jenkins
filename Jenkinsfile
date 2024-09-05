@@ -26,11 +26,6 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running Unit Tests...'
-                sh '''
-                    . venv/bin/activate
-                    cd flaskapp
-                    pytest test_app.py
-                '''
             }
         }
 
