@@ -64,14 +64,7 @@ pipeline {
                 }
             }
             steps {
-                sshagent (credentials: ["${env.SSH_CRED_ID}"]) {
-                    echo 'Deploying to EC2...'
-                    sh '''
-                        ssh ${EC2_USER}@${EC2_HOST} << EOF
-                            source venv/bin/activate
-                            cd flaskapp
-                        EOF
-                    '''
+                    echo "do nothing"
                 }
             }
         }
