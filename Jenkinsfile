@@ -4,7 +4,7 @@ pipeline {
     environment {
         GIT_REPO = "https://github.com/kharesonal/flaskapp_deployment_using_jenkins.git"
         EC2_USER = 'ubuntu'
-        EC2_HOST = '15.152.50.150'
+        EC2_HOST = 'HOST_IP'
         DEPLOY_DIR = '/home/ubuntu'
         SSH_CRED_ID = "EC2-SSH-Credentials"
     }
@@ -20,12 +20,26 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Setting up Virtual Environment and Installing Dependencies...'
+                sshagent (credentials: ["${env.SSH_CRED_ID}"]) {
+                    sh '''
+                        ssh ${EC2_USER}@${EC2_HOST} << 'EOF'
+                            cd flaskapp
+                            source venv/bin/activate
+                            pip install -r requirements.txt --break-system-packages
+                            EOF
+                    '''
+                }
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running Unit Tests...'
+                sh '''
+                    . venv/bin/activate
+                    cd flaskapp
+                    pytest test_app.py
+                '''
             }
         }
 
@@ -52,7 +66,16 @@ pipeline {
                 }
             }
             steps {
-                echo 'Setting up Virtual Environment and Installing Dependencies...'
+                sshagent (credentials: ["${env.SSH_CRED_ID}"]) {
+                    echo 'Deploying application on EC2...'
+                    sh '''
+                        ssh ${EC2_USER}@${EC2_HOST} << 'EOF'
+                            cd ${DEPLOY_DIR}/flaskapp
+                            . venv/bin/activate
+                            nohup python app.py &
+                            EOF
+                    '''
+                }
             }
         }
     }
