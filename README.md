@@ -48,7 +48,7 @@ sudo systemctl enable jenkins
 
 ## Step 4: Create the Jenkins Pipeline
 
-1 .Creating Credentials in Jenkins
+### 1.  Creating Credentials in Jenkins
   * Go to Jenkins Dashboard → Manage Jenkins → Manage Credentials.
   *  Add new SSH credentials for connecting to the deployment server:
      
@@ -56,7 +56,7 @@ sudo systemctl enable jenkins
     Username: ubuntu
     Private Key: Paste the private key generated earlier.
     
-2. Create a Jenkins Pipeline Job:
+### 2. Create a Jenkins Pipeline Job:
 
 * In Jenkins, go to the Dashboard and click on New Item.
 
@@ -75,7 +75,9 @@ sudo systemctl enable jenkins
 
 
 
-3. Create a Jenkinsfile in the repository: Add the following Jenkinsfile to the root of your repository:
+### 3. Create a Jenkinsfile in the repository:
+
+   Add the following Jenkinsfile to the root of your repository:
 ```
 pipeline {
     agent any
@@ -178,7 +180,7 @@ pipeline {
 }
 ```
 
-3. Pipeline Breakdown:
+### 4. Pipeline Breakdown:
 
 * Build: This stage installs the project dependencies.
 * Test: Executes unit tests using pytest.
@@ -188,7 +190,7 @@ pipeline {
    * On Failure: Sends an email notification to the developer when the build or any stage fails.
 
  
-4. Set up a notification system to alert via email when the build process fails or succeeds.
+### 5. Set up a notification system to alert via email when the build process fails or succeeds.
 
 Set up email notifications:
 
